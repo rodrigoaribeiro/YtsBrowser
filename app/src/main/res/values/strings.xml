@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Yts Browser</string>
+    <string name="action_settings">Procurar</string>
+    <string name="bt3d">3D (99999)</string>
+    <string name="bt720">720p (99999)</string>
+    <string name="bt1080">1080p (99999)</string>
+    <string name="btimdb">Imdb (99.99)</string>
+    <string name="txtyear">Year/Language</string>
+    <string name="txttitle">Movie Title</string>
+    <string name="txtGen">Genre</string>
+    <string name="synopsis">"synopsis</string>
+    <string name="searchText">Nova busca</string>
+    <string name="searchHint">nome do filme</string>
+    <string name="searchTitle">Procurar</string>
+    <string name="action_next">Proxima Página</string>
+    <string name="action_prior">Página Anterior</string>
+    <string name="action_reset">Reset</string>
+</resources>

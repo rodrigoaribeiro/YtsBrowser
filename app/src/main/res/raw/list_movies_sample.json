@@ -1,0 +1,117 @@
+{
+    "status": "ok",
+    "status_message": "Query was successful",
+    "data": {
+        "movie_count": 7500,
+        "limit": 2,
+        "page_number": 1,
+        "movies": [
+            {
+                "id": 7855,
+                "url": "https://yts.am/movie/wind-from-the-east-1970",
+                "imdb_code": "tt0065173",
+                "title": "Wind from the East",
+                "title_english": "Wind from the East",
+                "title_long": "Wind from the East (1970)",
+                "slug": "wind-from-the-east-1970",
+                "year": 1970,
+                "rating": 6.2,
+                "runtime": 95,
+                "genres": [
+                    "Drama"
+                ],
+                "summary": "",
+                "description_full": "",
+                "synopsis": "",
+                "yt_trailer_code": "",
+                "language": "English",
+                "mpa_rating": "",
+                "background_image": "https://yts.am/assets/images/movies/wind_from_the_east_1970/background.jpg",
+                "background_image_original": "https://yts.am/assets/images/movies/wind_from_the_east_1970/background.jpg",
+                "small_cover_image": "https://yts.am/assets/images/movies/wind_from_the_east_1970/small-cover.jpg",
+                "medium_cover_image": "https://yts.am/assets/images/movies/wind_from_the_east_1970/medium-cover.jpg",
+                "large_cover_image": "https://yts.am/assets/images/movies/wind_from_the_east_1970/large-cover.jpg",
+                "state": "ok",
+                "torrents": [
+                    {
+                        "url": "https://yts.am/torrent/download/229102198DC50250B326ED30B575011C16157ADA",
+                        "hash": "229102198DC50250B326ED30B575011C16157ADA",
+                        "quality": "720p",
+                        "seeds": 3,
+                        "peers": 19,
+                        "size": "762.42 MB",
+                        "size_bytes": 799455314,
+                        "date_uploaded": "2018-05-22 09:42:28",
+                        "date_uploaded_unix": 1526974948
+                    },
+                    {
+                        "url": "https://yts.am/torrent/download/69BE39371AF843E884A42E8C406DCE6780C8BC90",
+                        "hash": "69BE39371AF843E884A42E8C406DCE6780C8BC90",
+                        "quality": "1080p",
+                        "seeds": 0,
+                        "peers": 0,
+                        "size": "1.46 GB",
+                        "size_bytes": 1567663063,
+                        "date_uploaded": "2018-05-22 11:15:00",
+                        "date_uploaded_unix": 1526980500
+                    }
+                ],
+                "date_uploaded": "2018-05-22 09:42:28",
+                "date_uploaded_unix": 1526974948
+            },
+            {
+                "id": 7854,
+                "url": "https://yts.am/movie/struggle-in-italy-1971",
+                "imdb_code": "tt0066006",
+                "title": "Struggle in Italy",
+                "title_english": "Struggle in Italy",
+                "title_long": "Struggle in Italy (1971)",
+                "slug": "struggle-in-italy-1971",
+                "year": 1971,
+                "rating": 6.2,
+                "runtime": 62,
+                "genres": [
+                    "Drama"
+                ],
+                "summary": "The film reveals how and why a supposedly revolutionary Italian girl has in fact fallen prey to bourgeois ideology.",
+                "description_full": "The film reveals how and why a supposedly revolutionary Italian girl has in fact fallen prey to bourgeois ideology.",
+                "synopsis": "The film reveals how and why a supposedly revolutionary Italian girl has in fact fallen prey to bourgeois ideology.",
+                "yt_trailer_code": "",
+                "language": "English",
+                "mpa_rating": "",
+                "background_image": "https://yts.am/assets/images/movies/struggle_in_italy_1971/background.jpg",
+                "background_image_original": "https://yts.am/assets/images/movies/struggle_in_italy_1971/background.jpg",
+                "small_cover_image": "https://yts.am/assets/images/movies/struggle_in_italy_1971/small-cover.jpg",
+                "medium_cover_image": "https://yts.am/assets/images/movies/struggle_in_italy_1971/medium-cover.jpg",
+                "large_cover_image": "https://yts.am/assets/images/movies/struggle_in_italy_1971/large-cover.jpg",
+                "state": "ok",
+                "torrents": [
+                    {
+                        "url": "https://yts.am/torrent/download/07A7393F3C59BA327F63C7B5C9BFC540A9FD1E84",
+                        "hash": "07A7393F3C59BA327F63C7B5C9BFC540A9FD1E84",
+                        "quality": "720p",
+                        "seeds": 1,
+                        "peers": 0,
+                        "size": "483.73 MB",
+                        "size_bytes": 507227668,
+                        "date_uploaded": "2018-05-22 07:51:46",
+                        "date_uploaded_unix": 1526968306
+                    },
+                    {
+                        "url": "https://yts.am/torrent/download/9024B477A57C09F0B5449D8AC59C104B33656E5A",
+                        "hash": "9024B477A57C09F0B5449D8AC59C104B33656E5A",
+                        "quality": "1080p",
+                        "seeds": 0,
+                        "peers": 0,
+                        "size": "954.37 MB",
+                        "size_bytes": 1000729477,
+                        "date_uploaded": "2018-05-22 08:53:37",
+                        "date_uploaded_unix": 1526972017
+                    }
+                ],
+                "date_uploaded": "2018-05-22 07:51:46",
+                "date_uploaded_unix": 1526968306
+            }
+        ]
+    }
+}

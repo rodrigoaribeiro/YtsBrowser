@@ -15,4 +15,6 @@
     <string name="action_next">Proxima Página</string>
     <string name="action_prior">Página Anterior</string>
     <string name="action_reset">Reset</string>
+    <string name="APPLICATION_ID">ca-app-pub-1882929555373840~8922565807</string>
+    <string name="admobbannerid">ca-app-pub-1882929555373840/1319052731</string>
 </resources>

@@ -1,10 +1,8 @@
 package com.digao.ytsbrowser.Activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +27,9 @@ import com.digao.ytsbrowser.Model.Movie;
 import com.digao.ytsbrowser.Model.Torrent;
 import com.digao.ytsbrowser.R;
 import com.digao.ytsbrowser.Utils.UtilsAndConst;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,7 +83,16 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        searchTerm="";
+        MobileAds.initialize(this, getString(R.string.APPLICATION_ID));
+
+        AdView adview = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adview.loadAd(adRequest);
+/* /
+MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
+        //MobileAds.initialize(this, "YOUR_ADMOB_APP_ID");
+*/
+        searchTerm = "";
         //                showInputDialog();
 
         queue = Volley.newRequestQueue(this);
@@ -329,3 +339,7 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
 
 
 }
+
+/*
+YtsBrowser é um browser para pesquisas do site https://yts.am baseado na API de web services REST disponível em https://yts.am/api  todas as informações estão no site, o aplicativo somente facilita a navegação e pesquisa.
+ */

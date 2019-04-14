@@ -64,13 +64,13 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         if (indxTorrent >= 0) {
             torrentAux = movie.getTorrent(indxTorrent);
             holder.bt1080p.setVisibility(View.VISIBLE);
-            holder.bt1080p.setText("1080p (" + String.valueOf(torrentAux.getSeeds()) + ")\n"+ torrentAux.getSize());
-            final String magnet1080 =torrentAux.getMagnetLink(movie.getTitle(), context);
-            if ( ! magnet1080.isEmpty()) {
+            holder.bt1080p.setText("1080p (" + String.valueOf(torrentAux.getSeeds()) + ")\n" + torrentAux.getSize());
+            final String magnet1080 = torrentAux.getMagnetLink(movie.getTitle(), context);
+            if (!magnet1080.isEmpty()) {
                 holder.bt1080p.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse( magnet1080)));
+                        view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(magnet1080)));
                     }
                 });
             }
@@ -82,13 +82,13 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         if (indxTorrent >= 0) {
             torrentAux = movie.getTorrent(indxTorrent);
             holder.bt720p.setVisibility(View.VISIBLE);
-            holder.bt720p.setText("720p (" + String.valueOf(torrentAux.getSeeds()) + ")\n"+ torrentAux.getSize());
-            final String magnet720p = torrentAux.getMagnetLink(movie.getTitle(),context);
-            if ( ! magnet720p.isEmpty()) {
+            holder.bt720p.setText("720p (" + String.valueOf(torrentAux.getSeeds()) + ")\n" + torrentAux.getSize());
+            final String magnet720p = torrentAux.getMagnetLink(movie.getTitle(), context);
+            if (!magnet720p.isEmpty()) {
                 holder.bt720p.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse( magnet720p)));
+                        view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(magnet720p)));
                     }
                 });
             }
@@ -99,13 +99,13 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         if (indxTorrent >= 0) {
             torrentAux = movie.getTorrent(indxTorrent);
             holder.bt3d.setVisibility(View.VISIBLE);
-            holder.bt3d.setText("3D (" + String.valueOf(torrentAux.getSeeds()) + ")\n"+ torrentAux.getSize());
-            final String magnet3d = torrentAux.getMagnetLink(movie.getTitle(),context);
-            if ( ! magnet3d.isEmpty()) {
+            holder.bt3d.setText("3D (" + String.valueOf(torrentAux.getSeeds()) + ")\n" + torrentAux.getSize());
+            final String magnet3d = torrentAux.getMagnetLink(movie.getTitle(), context);
+            if (!magnet3d.isEmpty()) {
                 holder.bt3d.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse( magnet3d)));
+                        view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(magnet3d)));
                     }
                 });
             }
@@ -114,8 +114,6 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
         Picasso.get().load(posterLink).placeholder(R.drawable.film000)
                 .into(holder.cover);
-
-
     }
 
     @Override
@@ -133,17 +131,17 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         public ViewHolder(View itemView, final Context ctx) {
             super(itemView);
             this.ctx = ctx;
-            title = (TextView) itemView.findViewById(R.id.movieTitleID);
-            cover = (ImageView) itemView.findViewById(R.id.movieImageID);
-            year = (TextView) itemView.findViewById(R.id.movieYear);
-            genre = (TextView) itemView.findViewById(R.id.movieGenre);
-            synopsis = (TextView) itemView.findViewById(R.id.movieSynopsis);
+            title = itemView.findViewById(R.id.movieTitleID);
+            cover = itemView.findViewById(R.id.movieImageID);
+            year = itemView.findViewById(R.id.movieYear);
+            genre = itemView.findViewById(R.id.movieGenre);
+            synopsis = itemView.findViewById(R.id.movieSynopsis);
 
 
-            btImdb = (Button) itemView.findViewById(R.id.btImdb);
-            bt3d = (Button) itemView.findViewById(R.id.bt3D);
-            bt720p = (Button) itemView.findViewById(R.id.bt720);
-            bt1080p = (Button) itemView.findViewById(R.id.bt1080);
+            btImdb = itemView.findViewById(R.id.btImdb);
+            bt3d = itemView.findViewById(R.id.bt3D);
+            bt720p = itemView.findViewById(R.id.bt720);
+            bt1080p = itemView.findViewById(R.id.bt1080);
 
 
 /*

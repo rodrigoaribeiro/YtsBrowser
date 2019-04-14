@@ -1,7 +1,6 @@
 package com.digao.ytsbrowser.Activities;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +25,7 @@ import com.digao.ytsbrowser.Data.MovieRecyclerViewAdapter;
 import com.digao.ytsbrowser.Model.Movie;
 import com.digao.ytsbrowser.Model.Torrent;
 import com.digao.ytsbrowser.R;
+import com.digao.ytsbrowser.Utils.CfGlobal;
 import com.digao.ytsbrowser.Utils.UtilsAndConst;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -35,15 +35,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private int page = 1;
-
+    CfGlobal config;
+    Menu main_menu;
     private UtilsAndConst utils;
     private RecyclerView recyclerView;
     private MovieRecyclerViewAdapter movieRecyclerViewAdapter;
@@ -80,12 +78,14 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
+        config = CfGlobal.getInstance(getApplicationContext());
 
         MobileAds.initialize(this, getString(R.string.APPLICATION_ID));
 
-        AdView adview = (AdView) findViewById(R.id.adView);
+        AdView adview = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adview.loadAd(adRequest);
 /* /
@@ -99,7 +99,7 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
 
         utils = new UtilsAndConst();
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         movieList = new ArrayList<>();
@@ -117,21 +117,26 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        main_menu = menu;
+        MenuItem zitem = main_menu.findItem(R.id.action_prior);
+
+        zitem.setVisible(false);
+
         final MenuItem item = menu.findItem(R.id.action_settings);
         final SearchView searchview = (SearchView) item.getActionView();
-        searchview. setIconifiedByDefault(true);
+        searchview.setIconifiedByDefault(true);
         searchview.
-        setQueryHint( "nome do filme");
+                setQueryHint("nome do filme");
 
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                page=1;
-                if (movieList.size()>0) {
-                    getMovies(s, page );
+                page = 1;
+                if (movieList.size() > 0) {
+                    getMovies(s, page);
                     invalidateOptionsMenu();
                 }
-                return  movieList.size()>0;
+                return movieList.size() > 0;
             }
 
             @Override
@@ -154,40 +159,43 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
             //showInputDialog();
             return true;
         }
-        if ( id == R.id.action_next) {
+        if (id == R.id.action_next) {
 
-            getMovies(searchTerm,++page );
+            getMovies(searchTerm, ++page);
             movieRecyclerViewAdapter.notifyDataSetChanged();
 
         }
-        if ( id == R.id.action_reset) {
-            page=0;
-            searchTerm="";
-            getMovies("",page);
+        if (id == R.id.action_reset) {
+            //Crashlytics.getInstance().crash();
+            page = 0;
+            searchTerm = "";
+            getMovies("", page);
         }
-        if ( id == R.id.action_prior  && page>1) {
+        if (id == R.id.action_prior && page > 1) {
             //page--;
-            getMovies("",page--);
-            if (page == 1) {
 
+            getMovies("", page--);
+            if (page == 1) {
+                item.setVisible(false);
             }
 
         }
 
         return super.onOptionsItemSelected(item);
     }
+
     public void showInputDialog() {
         alertBuilder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_view,null);
-        final EditText newSearchEdit = (EditText) view.findViewById( R.id.searchEdit);
-        Button btSearch = (Button) view.findViewById(R.id.searchButton);
+        View view = getLayoutInflater().inflate(R.layout.dialog_view, null);
+        final EditText newSearchEdit = view.findViewById(R.id.searchEdit);
+        Button btSearch = view.findViewById(R.id.searchButton);
         btSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Prefs prefs = new Prefs(MainActivity.this);
                 if (!newSearchEdit.getText().toString().isEmpty()) {
-                    getMovies( newSearchEdit.getText().toString(),0 );
-                 //   prefs.setSearch(newSearchEdit.getText().toString());
+                    getMovies(newSearchEdit.getText().toString(), 0);
+                    //   prefs.setSearch(newSearchEdit.getText().toString());
                     //movieRecyclerViewAdapter.notifyDataSetChanged();
                     //movieRecyclerViewAdapter.notifyDataSetChanged();
                 }
@@ -201,11 +209,19 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
     }
 
     public List<Movie> getMovies(final String searchValue, int page) {
-        trimCache(this);
-        movieList.clear();
-        //movieRecyclerViewAdapter.notifyDataSetChanged();
 
-        String URL_SEARCH = utils.getURL();
+        movieList.clear();
+
+        //movieRecyclerViewAdapter.notifyDataSetChanged();
+        if (main_menu != null) {
+            MenuItem item = main_menu.findItem(R.id.action_prior);
+
+            item.setVisible(page > 1);
+        }
+        String URL_SEARCH = config.getURL(searchValue, page);
+        Log.d("search", URL_SEARCH);
+        /*
+        String URL_SEARCH =utils.getURL();
         if (!searchValue.isEmpty()) {
             searchTerm = searchValue;
             try {
@@ -223,7 +239,7 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
            pagAnterior.setVisible(this.page >1);
         }
 */
-        Log.d("URL", URL_SEARCH);
+        //Log.d("URL", URL_SEARCH);
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 URL_SEARCH
                 , new Response.Listener<JSONObject>() {
@@ -232,7 +248,7 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
                 try {
                     JSONObject data = response.getJSONObject("data");
                     String genre;
-                    Log.d("movieJ",data.getString("movie_count")+" " +data.getString("page_number"));
+                    //Log.d("movieJ",data.getString("movie_count")+" " +data.getString("page_number"));
                     if ((data.getInt("movie_count") > 0) && (data.has("movies"))) {
 
                         JSONArray movieArray = data.getJSONArray("movies");
@@ -271,7 +287,6 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
 
                             movieList.add(movie);
                             movieRecyclerViewAdapter.notifyDataSetChanged();
-
                         }
                     }
 
@@ -292,54 +307,13 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
     }
 
 
-    @Override
-    protected void onStop(){
-        super.onStop();
-    }
-
-    //Fires after the OnStop() state
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            trimCache(this);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    public static void trimCache(Context context) {
-        try {
-            File dir = context.getCacheDir();
-            if (dir != null && dir.isDirectory()) {
-                deleteDir(dir);
-            }
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-    }
-
-    public static boolean deleteDir(File dir) {
-        if (dir != null && dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
-                }
-            }
-        }
-
-        // The directory is now empty so delete it
-        return dir.delete();
-    }
-
-
-
-
 }
 
 /*
 YtsBrowser é um browser para pesquisas do site https://yts.am baseado na API de web services REST disponível em https://yts.am/api  todas as informações estão no site, o aplicativo somente facilita a navegação e pesquisa.
+
+YtsBrowser é um browser para pesquisas do site https://yts.am baseado na API de web services REST disponível em https://yts.am/api  todas as informações estão no site, o aplicativo somente facilita a navegação e pesquisa.
+
+a pesquisa procura ou filtra por: Título do filme, código IMDB do filme, Nome do ator ou atriz, código IMDB do ator ou atriz, Nome do Diretor, código IMDB do diretor
+
  */

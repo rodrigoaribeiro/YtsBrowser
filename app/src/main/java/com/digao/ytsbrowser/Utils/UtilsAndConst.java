@@ -12,24 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class UtilsAndConst {
-    private String URL = "https://yts.am/api/v2/list_movies.json?sort_by=seeds&order_by=desc&limit=";
-    private int LIMIT = 10;
 
-    public String getURL() {
-        return URL + String.valueOf(LIMIT);
-    }
-
-    public String getURL(int page) {
-        return URL + String.valueOf(LIMIT) + "&page=" + String.valueOf(page);
-    }
-
-    public int getLIMIT() {
-        return LIMIT;
-    }
-
-    public void setLIMIT(int LIMIT) {
-        this.LIMIT = LIMIT;
-    }
 
     public String readTrackers(Context ctx) {
 
@@ -50,10 +33,10 @@ public class UtilsAndConst {
                 input.close();
             }
         } catch (FileNotFoundException ex) {
-            Log.e("error", "Couldn't find the file " + ex);
+            Log.e("error", "Arquivo não encontrado " + ex);
             // return null;
         } catch (IOException ex) {
-            Log.e("error", "Error reading file " + ex);
+            Log.e("error", "Erro ao ler arquivo " + ex);
             //   return null;
         }
         return contents.toString();

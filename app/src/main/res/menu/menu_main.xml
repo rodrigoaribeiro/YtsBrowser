@@ -14,6 +14,10 @@
         android:id="@+id/action_reset"
         android:orderInCategory="100"
         android:title="@string/start" />
+    <item
+        android:id="@+id/action_cfg"
+        android:orderInCategory="100"
+        android:title="@string/cfgtxt" />
 
     <item
         android:id="@+id/action_prior"

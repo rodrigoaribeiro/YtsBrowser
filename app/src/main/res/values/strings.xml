@@ -18,4 +18,48 @@
     <string name="APPLICATION_ID">ca-app-pub-1882929555373840~8922565807</string>
     <string name="admobbannerid">ca-app-pub-1882929555373840/1319052731</string>
     <string name="start">Início</string>
+    <string name="cfgtxt">Configurações</string>
+    <string name="limitpag">Limite por Página:</string>
+    <string name="qlty">Qualidade</string>
+    <string name="sortby">Ordenar Por:</string>
+    <string name="txlimit">Limite</string>
+    <string name="rAll">Todas</string>
+    <string name="r720p">720p</string>
+    <string name="r1080">1080p</string>
+    <string name="r3D">3D</string>
+    <string-array name="arrayQlty">
+        <item>Todas</item>
+        <item>720p </item>
+        <item>1080p</item>
+        <item>3D</item>
+    </string-array>
+    <string-array name="arrayOrderYts">
+        <item>title</item>
+        <item>year</item>
+        <item>rating</item>
+        <item>peers</item>
+        <item>seeds</item>
+        <item>download_count</item>
+        <item>like_count</item>
+        <item>date_added</item>
+    </string-array>
+    <string-array name="arrayOrdem">
+        <item>Título</item>
+        <item>Ano</item>
+        <item>Avaliação</item>
+        <item>peers</item>
+        <item>seeds</item>
+        <item>Qtde downloads</item>
+        <item>Qtde Likes</item>
+        <item>Data de inclusão</item>
+    </string-array>
+    <string name="servidor">Servidor/Host</string>
+    <string-array name="servidores">
+        <item>yts.am</item>
+        <item>yts.ag</item>
+        <item>yts.pm</item>
+        <item>yify.is</item>
+        <item>www4.yify.is</item>
+    </string-array>
+
 </resources>

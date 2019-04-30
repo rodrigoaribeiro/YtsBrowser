@@ -11,14 +11,21 @@ public class CfGlobal {
     private Context ctx;
     private SharedPreferences prefsCFG;
     private SharedPreferences.Editor editor;
-    private String URL = "https://yts.am/api/v2/list_movies.json"; //?sort_by=seeds&order_by=desc&limit=";
+
+
+    private String domain = "yts.am";
+    //private String URL = "https://yts.am/api/v2/list_movies.json"; //?sort_by=seeds&order_by=desc&limit=";
+    //https://yts.pm
+    //https://yify.is/
+    //https://www4.yify.is/
     private int LIMIT;
     private String QUALITY;
     public String SORTBY;
     public String ORDERBY;
 
     public String getURL() {
-        return URL + "?limit=" + String.valueOf(getLIMIT());
+
+        return "https://" + this.domain + "/api/v2/list_movies.json?limit=" + getLIMIT();
     }
 
     public String getURL(String query, int page) {
@@ -40,9 +47,23 @@ public class CfGlobal {
             vReturn += "&order_by=" + getORDERBY();
         }
         if (page > 0) {
-            vReturn += "&page=" + String.valueOf(page);
+            vReturn += "&page=" + page;
         }
         return vReturn;  //URL + String.valueOf(LIMIT) + "&page=" + String.valueOf(page);
+    }
+
+    public String getDomain() {
+        this.domain = "yts.am";
+        if (prefsCFG.contains("domain")) {
+            this.domain = prefsCFG.getString("domain", this.domain);
+        }
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        editor = prefsCFG.edit();
+        editor.putString("domain", domain);
+        this.domain = domain;
     }
 
     public String getORDERBY() {

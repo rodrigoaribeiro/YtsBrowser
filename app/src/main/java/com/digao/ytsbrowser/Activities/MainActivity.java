@@ -1,6 +1,8 @@
 package com.digao.ytsbrowser.Activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,12 +15,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.digao.ytsbrowser.Data.MovieRecyclerViewAdapter;
@@ -35,11 +37,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private int page = 1;
+    private int pagina = 1;
+
+
     CfGlobal config;
     Menu main_menu;
     private UtilsAndConst utils;
@@ -60,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 - udp://tracker.coppersurfer.tk:6969
 - udp://glotorrents.pw:6969/announce
 - udp://tracker.opentrackr.org:1337/announce
-- udp://torrent.gresille.org:80/announce
+- udp://torrent.gresille.org:80/announcef
 - udp://p4p.arenabg.com:1337
 - udp://tracker.leechers-paradise.org:6969
 
@@ -74,21 +79,51 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
 
  */
 
+    public static void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if (dir != null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
         config = CfGlobal.getInstance(getApplicationContext());
-
+        deleteCache(this);
         MobileAds.initialize(this, getString(R.string.APPLICATION_ID));
 
         AdView adview = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
+
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
+        // Retornar na produção    AdRequest adRequest = new AdRequest.Builder().build();
+
+
         adview.loadAd(adRequest);
-/* /
+
+
+        /* /
 MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
         //MobileAds.initialize(this, "YOUR_ADMOB_APP_ID");
 */
@@ -112,6 +147,29 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
 
     }
 
+    public void showInputDialog() {
+        alertBuilder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_view, null);
+        final EditText newSearchEdit = view.findViewById(R.id.searchEdit);
+        Button btSearch = view.findViewById(R.id.searchButton);
+        btSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Prefs prefs = new Prefs(MainActivity.this);
+                if (!newSearchEdit.getText().toString().isEmpty()) {
+                    getMovies(newSearchEdit.getText().toString(), 0);
+                    //   prefs.setSearch(newSearchEdit.getText().toString());
+                    //movieRecyclerViewAdapter.notifyDataSetChanged();
+                    //movieRecyclerViewAdapter.notifyDataSetChanged();
+                }
+                dialog.dismiss();
+            }
+        });
+        alertBuilder.setView(view);
+        dialog = alertBuilder.create();
+        dialog.show();
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -131,9 +189,9 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                page = 1;
+
                 if (movieList.size() > 0) {
-                    getMovies(s, page);
+                    getMovies(s, 0);
                     invalidateOptionsMenu();
                 }
                 return movieList.size() > 0;
@@ -161,54 +219,36 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
         }
         if (id == R.id.action_next) {
 
-            getMovies(searchTerm, ++page);
+            getMovies(searchTerm, ++pagina);
             movieRecyclerViewAdapter.notifyDataSetChanged();
 
         }
         if (id == R.id.action_reset) {
             //Crashlytics.getInstance().crash();
-            page = 0;
+            setPagina(0);
             searchTerm = "";
-            getMovies("", page);
+            getMovies("", 0);
         }
-        if (id == R.id.action_prior && page > 1) {
+        if (id == R.id.action_prior && pagina > 1) {
             //page--;
 
-            getMovies("", page--);
-            if (page == 1) {
-                item.setVisible(false);
-            }
+            getMovies("", pagina--);
+            item.setVisible(pagina > 1);
+
+
+        }
+        if (id == R.id.action_cfg) {
+
+            startActivityForResult(new Intent(this, ActConfig.class), 1);
+            getMovies("", 0);
 
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void showInputDialog() {
-        alertBuilder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_view, null);
-        final EditText newSearchEdit = view.findViewById(R.id.searchEdit);
-        Button btSearch = view.findViewById(R.id.searchButton);
-        btSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Prefs prefs = new Prefs(MainActivity.this);
-                if (!newSearchEdit.getText().toString().isEmpty()) {
-                    getMovies(newSearchEdit.getText().toString(), 0);
-                    //   prefs.setSearch(newSearchEdit.getText().toString());
-                    //movieRecyclerViewAdapter.notifyDataSetChanged();
-                    //movieRecyclerViewAdapter.notifyDataSetChanged();
-                }
-                dialog.dismiss();
-            }
-        });
-        alertBuilder.setView(view);
-        dialog = alertBuilder.create();
-        dialog.show();
-
-    }
-
     public List<Movie> getMovies(final String searchValue, int page) {
+
 
         movieList.clear();
 
@@ -249,6 +289,9 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
                     JSONObject data = response.getJSONObject("data");
                     String genre;
                     //Log.d("movieJ",data.getString("movie_count")+" " +data.getString("page_number"));
+                    if (data.getInt("page_number") > 0) {
+                        setPagina(data.getInt("page_number"));
+                    }
                     if ((data.getInt("movie_count") > 0) && (data.has("movies"))) {
 
                         JSONArray movieArray = data.getJSONArray("movies");
@@ -298,15 +341,30 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
-                VolleyLog.d(error.getMessage());
+                //Log.d("volley" , error.toString());
+                //Log.d("volley","-------------------------------------------------" );
+                //Log.d("volley",error.getMessage());
+                //VolleyLog.d(error.toString());
+                //Log.d("")
+                Toast.makeText(getApplicationContext(), "Erro ao acessar https://" + config.getDomain() + "\nTente mais tarde por favor!\n" + error.toString(), Toast.LENGTH_LONG).show();
+//                VolleyLog.d(error.getMessage());
             }
         });
         queue.add(jsonObjectRequest);
         return movieList;
     }
 
+    public void setPagina(int pagenum) {
+        this.pagina = pagenum;
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Retrieve data in the intent
+        //String editTextValue = intent.getStringExtra("valueId");
+        getMovies("", 0);
+    }
 }
 
 /*

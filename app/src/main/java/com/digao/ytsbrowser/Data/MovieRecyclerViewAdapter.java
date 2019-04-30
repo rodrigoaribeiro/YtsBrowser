@@ -23,7 +23,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     private Context context;
 
     private List<Movie> movieList;
-
+    private final String IMDBURL = "http://www.imdb.com/title/";
     public MovieRecyclerViewAdapter(Context context, List<Movie> movies) {
         this.context = context;
         this.movieList = movies;
@@ -54,7 +54,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         holder.btImdb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.imdb.com/title/" + movie.getImdbId())));
+                view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(IMDBURL + movie.getImdbId())));
             }
         });
         holder.bt3d.setVisibility(View.INVISIBLE);
@@ -64,7 +64,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         if (indxTorrent >= 0) {
             torrentAux = movie.getTorrent(indxTorrent);
             holder.bt1080p.setVisibility(View.VISIBLE);
-            holder.bt1080p.setText("1080p (" + String.valueOf(torrentAux.getSeeds()) + ")\n" + torrentAux.getSize());
+            holder.bt1080p.setText("1080p (" + torrentAux.getSeeds() + ")\n" + torrentAux.getSize());
             final String magnet1080 = torrentAux.getMagnetLink(movie.getTitle(), context);
             if (!magnet1080.isEmpty()) {
                 holder.bt1080p.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +82,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         if (indxTorrent >= 0) {
             torrentAux = movie.getTorrent(indxTorrent);
             holder.bt720p.setVisibility(View.VISIBLE);
-            holder.bt720p.setText("720p (" + String.valueOf(torrentAux.getSeeds()) + ")\n" + torrentAux.getSize());
+            holder.bt720p.setText("720p (" + torrentAux.getSeeds() + ")\n" + torrentAux.getSize());
             final String magnet720p = torrentAux.getMagnetLink(movie.getTitle(), context);
             if (!magnet720p.isEmpty()) {
                 holder.bt720p.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +99,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         if (indxTorrent >= 0) {
             torrentAux = movie.getTorrent(indxTorrent);
             holder.bt3d.setVisibility(View.VISIBLE);
-            holder.bt3d.setText("3D (" + String.valueOf(torrentAux.getSeeds()) + ")\n" + torrentAux.getSize());
+            holder.bt3d.setText("3D (" + torrentAux.getSeeds() + ")\n" + torrentAux.getSize());
             final String magnet3d = torrentAux.getMagnetLink(movie.getTitle(), context);
             if (!magnet3d.isEmpty()) {
                 holder.bt3d.setOnClickListener(new View.OnClickListener() {

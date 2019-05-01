@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.digao.ytsbrowser.Model.Movie;
 import com.digao.ytsbrowser.Model.Torrent;
@@ -24,6 +25,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
     private List<Movie> movieList;
     private final String IMDBURL = "http://www.imdb.com/title/";
+
     public MovieRecyclerViewAdapter(Context context, List<Movie> movies) {
         this.context = context;
         this.movieList = movies;
@@ -37,8 +39,9 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final Movie movie = movieList.get(position);
+
         Torrent torrentAux;
         int indxTorrent;
 
@@ -64,13 +67,13 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         if (indxTorrent >= 0) {
             torrentAux = movie.getTorrent(indxTorrent);
             holder.bt1080p.setVisibility(View.VISIBLE);
-            holder.bt1080p.setText("1080p (" + torrentAux.getSeeds() + ")\n" + torrentAux.getSize());
+            holder.bt1080p.setText("1080p (" + torrentAux.getSeeds() + ")\n" + torrentAux.getType() + "\n" + torrentAux.getSize());
             final String magnet1080 = torrentAux.getMagnetLink(movie.getTitle(), context);
             if (!magnet1080.isEmpty()) {
                 holder.bt1080p.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(magnet1080)));
+                        openUrl(view, magnet1080);
                     }
                 });
             }
@@ -82,13 +85,14 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         if (indxTorrent >= 0) {
             torrentAux = movie.getTorrent(indxTorrent);
             holder.bt720p.setVisibility(View.VISIBLE);
-            holder.bt720p.setText("720p (" + torrentAux.getSeeds() + ")\n" + torrentAux.getSize());
+            holder.bt720p.setText("720p (" + torrentAux.getSeeds() + ")\n" + torrentAux.getType() + "\n" + torrentAux.getSize());
             final String magnet720p = torrentAux.getMagnetLink(movie.getTitle(), context);
             if (!magnet720p.isEmpty()) {
                 holder.bt720p.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(magnet720p)));
+                        openUrl(view, magnet720p);
+                        //view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(magnet720p)));
                     }
                 });
             }
@@ -99,13 +103,14 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         if (indxTorrent >= 0) {
             torrentAux = movie.getTorrent(indxTorrent);
             holder.bt3d.setVisibility(View.VISIBLE);
-            holder.bt3d.setText("3D (" + torrentAux.getSeeds() + ")\n" + torrentAux.getSize());
+            holder.bt3d.setText("3D (" + torrentAux.getSeeds() + ")\n" + torrentAux.getType() + "\n" + torrentAux.getSize());
             final String magnet3d = torrentAux.getMagnetLink(movie.getTitle(), context);
             if (!magnet3d.isEmpty()) {
                 holder.bt3d.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(magnet3d)));
+                        openUrl(view, magnet3d);
+                        //view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(magnet3d)));
                     }
                 });
             }
@@ -114,6 +119,15 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
         Picasso.get().load(posterLink).placeholder(R.drawable.film000)
                 .into(holder.cover);
+    }
+
+    public void openUrl(View view, String magnetLink) {
+        Intent zIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(magnetLink));
+        if (zIntent.resolveActivity(view.getContext().getPackageManager()) != null) {
+            view.getContext().startActivity(zIntent);
+        } else {
+            Toast.makeText(view.getContext(), "Não existe um app associado ao protocolo MAGNET !!!", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

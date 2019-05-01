@@ -29,8 +29,10 @@ import com.digao.ytsbrowser.Model.Torrent;
 import com.digao.ytsbrowser.R;
 import com.digao.ytsbrowser.Utils.CfGlobal;
 import com.digao.ytsbrowser.Utils.UtilsAndConst;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 
 import org.json.JSONArray;
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog.Builder alertBuilder;
     private AlertDialog dialog;
     private String searchTerm;
+    private InterstitialAd interstitialAd;
 
 
 //https://yts.am/api/v2/list_movies.json?sort_by=seeds&order_by=desc&limit=10&page=1
@@ -117,10 +120,25 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
         AdView adview = findViewById(R.id.adView);
 
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
-        // Retornar na produção    AdRequest adRequest = new AdRequest.Builder().build();
+        // Retornar na produção --> AdRequest adRequest = new AdRequest.Builder().build();
 
 
         adview.loadAd(adRequest);
+
+        // Create the InterstitialAd and set the adUnitId.
+        interstitialAd = new InterstitialAd(this);
+        // Defined in res/values/strings.xml
+        interstitialAd.setAdUnitId(getString(R.string.interstitial));
+        interstitialAd.loadAd(adRequest);
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                AdRequest zdRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
+//Retornar na Produção                AdRequest zdRequest = new AdRequest.Builder().build();
+                interstitialAd.loadAd(zdRequest);
+            }
+        });
+
 
 
         /* /
@@ -239,7 +257,7 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
         }
         if (id == R.id.action_cfg) {
 
-            startActivityForResult(new Intent(this, ActConfig.class), 1);
+            startActivityForResult(new Intent(this, ActConfig.class), 99);
             getMovies("", 0);
 
         }
@@ -325,6 +343,7 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
                                 torrent.setSeeds(objTorrent.getInt("seeds"));
                                 torrent.setPeers(objTorrent.getInt("peers"));
                                 torrent.setUrl(objTorrent.getString("url"));
+                                torrent.setType(objTorrent.getString("type"));
                                 movie.addTorrent(torrent);
                             }
 
@@ -363,6 +382,11 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
         super.onActivityResult(requestCode, resultCode, data);
         //Retrieve data in the intent
         //String editTextValue = intent.getStringExtra("valueId");
+        if (requestCode == 99) {
+            if (interstitialAd != null && interstitialAd.isLoaded()) {
+                interstitialAd.show();
+            }
+        }
         getMovies("", 0);
     }
 }

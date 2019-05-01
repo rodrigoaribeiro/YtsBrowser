@@ -8,73 +8,85 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class Torrent {
-        private String hash;
-        private String quality;
-        private String Size;
-        private int seeds;
-        private int peers;
-        private String Url;
+    private String hash;
+    private String quality;
+    private String Size;
+    private int seeds;
+    private int peers;
+    private String Url;
 
-        public String getHash() {
-            return hash;
-        }
 
-        public void setHash(String hash) {
-            this.hash = hash;
-        }
+    private String type;
 
-        public String getQuality() {
-            return quality;
-        }
+    public String getHash() {
+        return hash;
+    }
 
-        public void setQuality(String quality) {
-            this.quality = quality;
-        }
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
 
-        public String getSize() {
-            return Size;
-        }
+    public String getQuality() {
+        return quality;
+    }
 
-        public void setSize(String size) {
-            Size = size;
-        }
+    public void setQuality(String quality) {
+        this.quality = quality;
+    }
 
-        public int getSeeds() {
-            return seeds;
-        }
+    public String getSize() {
+        return Size;
+    }
 
-        public void setSeeds(int seeds) {
-            this.seeds = seeds;
-        }
+    public void setSize(String size) {
+        Size = size;
+    }
 
-        public int getPeers() {
-            return peers;
-        }
+    public int getSeeds() {
+        return seeds;
+    }
 
-        public void setPeers(int peers) {
-            this.peers = peers;
-        }
+    public void setSeeds(int seeds) {
+        this.seeds = seeds;
+    }
 
-        public String getUrl() {
-            return Url;
-        }
+    public int getPeers() {
+        return peers;
+    }
 
-        public void setUrl(String url) {
-            Url = url;
-        }
-        public String getMagnetLink(String title, Context ctx) {
-            String result = "";
-            //&tr=
-            //magnet:?xt=urn:btih:" . $torrent["hash"] . "&dn=" . urlencode($movie["title"] . $trackers)
-            UtilsAndConst util = new UtilsAndConst();
-            try {
-                result             ="magnet:?xt=urn:btih:" + hash + "&dn="+ URLEncoder.encode(title, "UTF-8")+             util.readTrackers(ctx);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            return result;
+    public void setPeers(int peers) {
+        this.peers = peers;
+    }
 
+    public String getUrl() {
+        return Url;
+    }
+
+    public void setUrl(String url) {
+        Url = url;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getMagnetLink(String title, Context ctx) {
+        String result = "";
+        //&tr=
+        //magnet:?xt=urn:btih:" . $torrent["hash"] . "&dn=" . urlencode($movie["title"] . $trackers)
+        UtilsAndConst util = new UtilsAndConst();
+        try {
+            result = "magnet:?xt=urn:btih:" + hash + "&dn=" + URLEncoder.encode(title, "UTF-8") + util.readTrackers(ctx);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
+        return result;
+
+    }
     /*
 "torrents": [
     {

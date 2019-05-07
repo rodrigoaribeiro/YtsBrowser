@@ -4,17 +4,23 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SearchView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -107,6 +113,49 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
         }
     }
 
+    void setSearchVisivel(Boolean visivel, Boolean criando) {
+        EditText search = findViewById(R.id.edSearch);
+        View viewDiv = findViewById(R.id.view3);
+        ImageView btProcura = findViewById(R.id.btProcura);
+        if (!criando) {
+            MenuItem itemenu = main_menu.findItem(R.id.action_settings);
+            itemenu.setVisible(!visivel);
+        }
+        if (visivel) {
+            btProcura.setVisibility(View.VISIBLE);
+            search.setVisibility(View.VISIBLE);
+            viewDiv.setVisibility(View.VISIBLE);
+            //R.id.action_settings
+
+
+        } else {
+            btProcura.setVisibility(View.INVISIBLE);
+            search.setVisibility(View.INVISIBLE);
+            viewDiv.setVisibility(View.INVISIBLE);
+
+        }
+        /* Work with Constraint */
+        ConstraintSet set = new ConstraintSet();
+        ConstraintLayout layout;
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        layout = findViewById(R.id.constrMain);
+        set.clone(layout);
+        // The following breaks the connection.
+        if (!visivel) {
+
+
+            set.connect(R.id.recyclerView, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0);
+            //set.clear(R.id.recyclerView, ConstraintSet.TOP);
+            // Comment out line above and uncomment line below to make the connection.
+            // set.connect(R.id.bottomText, ConstraintSet.TOP, R.id.imageView, ConstraintSet.BOTTOM, 0);
+        } else {
+            set.connect(R.id.recyclerView, ConstraintSet.TOP, R.id.view3, ConstraintSet.BOTTOM, 0);
+
+        }
+        set.applyTo(layout);
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,13 +163,41 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         config = CfGlobal.getInstance(getApplicationContext());
+        final ImageView btProcura = findViewById(R.id.btProcura);
+        EditText search = findViewById(R.id.edSearch);
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    InputMethodManager imm = (InputMethodManager) textView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
+                    btProcura.callOnClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+//        imeOptions
+        setSearchVisivel(false, true);
+        btProcura.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText search = findViewById(R.id.edSearch);
+                if (!search.getText().toString().isEmpty()) {
+                    searchTerm = search.getText().toString();
+                    getMovies(searchTerm, 0);
+                }
+            }
+        });
+
         deleteCache(this);
         MobileAds.initialize(this, getString(R.string.APPLICATION_ID));
 
         AdView adview = findViewById(R.id.adView);
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
-        // Retornar na produção --> AdRequest adRequest = new AdRequest.Builder().build();
+        //AdRequest adRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
+        // Retornar na produção -->
+        AdRequest adRequest = new AdRequest.Builder().build();
 
 
         adview.loadAd(adRequest);
@@ -133,8 +210,9 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
         interstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
-                AdRequest zdRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
-//Retornar na Produção                AdRequest zdRequest = new AdRequest.Builder().build();
+//                AdRequest zdRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
+//Retornar na Produção
+                AdRequest zdRequest = new AdRequest.Builder().build();
                 interstitialAd.loadAd(zdRequest);
             }
         });
@@ -198,8 +276,10 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
 
         zitem.setVisible(false);
 
-        final MenuItem item = menu.findItem(R.id.action_settings);
-        final SearchView searchview = (SearchView) item.getActionView();
+//        final MenuItem item = menu.findItem(R.id.action_settings);
+        //SearchView searchview = (SearchView) item.getActionView();
+        //searchview.setVisibility(View.INVISIBLE);
+        /* 05052019 final SearchView searchview = (SearchView) item.getActionView();
         searchview.setIconifiedByDefault(true);
         searchview.
                 setQueryHint("nome do filme");
@@ -219,7 +299,7 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
             public boolean onQueryTextChange(String s) {
                 return false;
             }
-        });
+        }); */
         return true;
     }
 
@@ -233,6 +313,14 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             //showInputDialog();
+            setSearchVisivel(true, false);//            Toast.makeText(getApplicationContext(), "clicou na bagaça", Toast.LENGTH_LONG).show();
+            EditText search = findViewById(R.id.edSearch);
+            search.requestFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(search, InputMethodManager.SHOW_IMPLICIT);
+
+            //item.setVisible(false);
+//
             return true;
         }
         if (id == R.id.action_next) {
@@ -243,6 +331,7 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
         }
         if (id == R.id.action_reset) {
             //Crashlytics.getInstance().crash();
+            setSearchVisivel(false, false);
             setPagina(0);
             searchTerm = "";
             getMovies("", 0);
@@ -250,7 +339,7 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
         if (id == R.id.action_prior && pagina > 1) {
             //page--;
 
-            getMovies("", pagina--);
+            getMovies(searchTerm, pagina--);
             item.setVisible(pagina > 1);
 
 
@@ -258,7 +347,7 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
         if (id == R.id.action_cfg) {
 
             startActivityForResult(new Intent(this, ActConfig.class), 99);
-            getMovies("", 0);
+            // necessário ? getMovies("", 0);
 
         }
 

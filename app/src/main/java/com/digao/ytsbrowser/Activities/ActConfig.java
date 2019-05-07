@@ -3,6 +3,8 @@ package com.digao.ytsbrowser.Activities;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -24,8 +26,8 @@ public class ActConfig extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_config);
         this.setTitle("Configurações");
-
-
+        TextView txtMail = findViewById(R.id.txtDev);
+        TextView textPP = findViewById(R.id.textPP);
         config = CfGlobal.getInstance(context);// getApplicationContext());
         final TextView limite = findViewById(R.id.idLimit);
         limite.setText(getResources().getString(R.string.limitpag) + " " + config.getLIMIT());
@@ -156,7 +158,32 @@ public class ActConfig extends AppCompatActivity {
             }
         });
 
+        txtMail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String mail = "mailto:digao.listas@gmail.com?subject= aplicativo " + view.getContext().getPackageName();
+                Intent zIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mail));
+                if (zIntent.resolveActivity(view.getContext().getPackageManager()) != null) {
+                    view.getContext().startActivity(zIntent);
+                }
+            }
+        });
+
+        textPP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String mail = "https://rodrigoaribeiro.github.io/privacypolicy.html";
+
+                Intent zIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mail));
+                if (zIntent.resolveActivity(view.getContext().getPackageManager()) != null) {
+                    view.getContext().startActivity(zIntent);
+                }
+            }
+        });
+
     }
 
 
 }
+
+

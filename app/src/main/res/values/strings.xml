@@ -28,6 +28,9 @@
     <string name="r720p">720p</string>
     <string name="r1080">1080p</string>
     <string name="r3D">3D</string>
+    <string name="pptxt">Política de Privacidade</string>
+
+    <string name="develtxt">Desenvolvido por:\nRodrigo Ribeiro\ndigao.listas@gmail.com</string>
     <string-array name="arrayQlty">
         <item>Todas</item>
         <item>720p </item>

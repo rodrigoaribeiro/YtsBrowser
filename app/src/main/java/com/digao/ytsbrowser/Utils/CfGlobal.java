@@ -3,6 +3,8 @@ package com.digao.ytsbrowser.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.digao.ytsbrowser.R;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -28,7 +30,7 @@ public class CfGlobal {
         return "https://" + this.domain + "/api/v2/list_movies.json?limit=" + getLIMIT();
     }
 
-    public String getURL(String query, int page) {
+    public String getURL(String query, int page, int indexQlty) {
         String vReturn = getURL();
         if (!query.isEmpty()) {
             try {
@@ -37,13 +39,19 @@ public class CfGlobal {
                 e.printStackTrace();
             }
         }
-        if (!getQuality().isEmpty()) {
-            vReturn += "&quality=" + getQuality();
+        if (indexQlty > 0) {
+            vReturn += "&quality=" + ctx.getResources().getStringArray(R.array.arrayQlty)[indexQlty];
+
+        } else {
+            if (!getQuality().isEmpty()) {
+                vReturn += "&quality=" + getQuality();
+            }
         }
         if (!getSortBy().isEmpty()) {
             vReturn += "&sort_by=" + getSortBy();
         }
-        if (!getORDERBY().isEmpty()) {
+        if (!
+                getORDERBY().isEmpty()) {
             vReturn += "&order_by=" + getORDERBY();
         }
         if (page > 0) {

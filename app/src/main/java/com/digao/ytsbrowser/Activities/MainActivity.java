@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private int pagina = 1;
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog dialog;
     private String searchTerm;
     private InterstitialAd interstitialAd;
+    private RadioGroup idGrQlty;
 
 
 //https://yts.am/api/v2/list_movies.json?sort_by=seeds&order_by=desc&limit=10&page=1
@@ -115,6 +118,7 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
 
     void setSearchVisivel(Boolean visivel, Boolean criando) {
         EditText search = findViewById(R.id.edSearch);
+        TextView textView2 = findViewById(R.id.textView2);
         View viewDiv = findViewById(R.id.view3);
         ImageView btProcura = findViewById(R.id.btProcura);
         if (!criando) {
@@ -125,6 +129,9 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
             btProcura.setVisibility(View.VISIBLE);
             search.setVisibility(View.VISIBLE);
             viewDiv.setVisibility(View.VISIBLE);
+            textView2.setVisibility(View.VISIBLE);
+            idGrQlty.setVisibility(View.VISIBLE);
+
             //R.id.action_settings
 
 
@@ -132,7 +139,8 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
             btProcura.setVisibility(View.INVISIBLE);
             search.setVisibility(View.INVISIBLE);
             viewDiv.setVisibility(View.INVISIBLE);
-
+            textView2.setVisibility(View.INVISIBLE);
+            idGrQlty.setVisibility(View.INVISIBLE);
         }
         /* Work with Constraint */
         ConstraintSet set = new ConstraintSet();
@@ -165,6 +173,20 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
         config = CfGlobal.getInstance(getApplicationContext());
         final ImageView btProcura = findViewById(R.id.btProcura);
         EditText search = findViewById(R.id.edSearch);
+        idGrQlty = findViewById(R.id.idGrQld);
+        idGrQlty.clearCheck();
+        int vIndex = 0;
+
+        if (config.getQuality().isEmpty()) {
+            vIndex = 0;
+
+        } else {
+            vIndex = java.util.Arrays.asList(getResources().getStringArray(R.array.arrayQlty)).indexOf(config.getQuality());
+
+        }
+        idGrQlty.check(getResources().getIdentifier("rButton" + vIndex, "id", getPackageName()));
+
+
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -184,6 +206,8 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
             public void onClick(View view) {
                 EditText search = findViewById(R.id.edSearch);
                 if (!search.getText().toString().isEmpty()) {
+                    InputMethodManager imm = (InputMethodManager) search.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
                     searchTerm = search.getText().toString();
                     getMovies(searchTerm, 0);
                 }
@@ -195,9 +219,8 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
 
         AdView adview = findViewById(R.id.adView);
 
-        //AdRequest adRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
-        // Retornar na produção -->
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
+        // Retornar na produção -->         AdRequest adRequest = new AdRequest.Builder().build();
 
 
         adview.loadAd(adRequest);
@@ -210,9 +233,8 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
         interstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
-//                AdRequest zdRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
-//Retornar na Produção
-                AdRequest zdRequest = new AdRequest.Builder().build();
+                AdRequest zdRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
+//Retornar na Produção --> AdRequest zdRequest = new AdRequest.Builder().build();
                 interstitialAd.loadAd(zdRequest);
             }
         });
@@ -365,7 +387,13 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
 
             item.setVisible(page > 1);
         }
-        String URL_SEARCH = config.getURL(searchValue, page);
+        int vIndex = -1;
+        if (idGrQlty.getVisibility() != View.GONE) {
+
+            vIndex = idGrQlty.indexOfChild(idGrQlty.findViewById(idGrQlty.getCheckedRadioButtonId()));
+
+        }
+        String URL_SEARCH = config.getURL(searchValue, page, vIndex);
         Log.d("search", URL_SEARCH);
         /*
         String URL_SEARCH =utils.getURL();
@@ -459,6 +487,10 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
             }
         });
         queue.add(jsonObjectRequest);
+        if (main_menu != null) {
+            MenuItem zitem = main_menu.findItem(R.id.action_next);
+            zitem.setVisible(movieList.size() >= config.getLIMIT());
+        }
         return movieList;
     }
 
@@ -472,8 +504,11 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
         //Retrieve data in the intent
         //String editTextValue = intent.getStringExtra("valueId");
         if (requestCode == 99) {
-            if (interstitialAd != null && interstitialAd.isLoaded()) {
-                interstitialAd.show();
+            int random = new Random().nextInt((99 - 0) + 1) + 0; // get a random number between 0 and 99
+            if (random % 3 == 0) { // if the number is multiple of 3
+                if (interstitialAd != null && interstitialAd.isLoaded()) {
+                    interstitialAd.show();
+                }
             }
         }
         getMovies("", 0);

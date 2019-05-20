@@ -53,7 +53,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         holder.genre.setText(movie.getGenre());
         holder.synopsis.setText(movie.getSinopse());
 
-        holder.btImdb.setText("Imdb (" + movie.getRating() + ")");
+        holder.btImdb.setText(movie.getRating());
         holder.btImdb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Yts Browser</string>
+    <string name="action_settings">Busca</string>
+    <string name="bt3d">3D (99999)</string>
+    <string name="bt720">720p (99999)</string>
+    <string name="bt1080">1080p (99999)</string>
+    <string name="btimdb">Imdb (99.99)</string>
+    <string name="txtyear">Año/Idioma</string>
+    <string name="txttitle">Título da Película</string>
+    <string name="txtGen">Género</string>
+    <string name="synopsis">"Sinopsis</string>
+    <string name="searchText">Nova Busca</string>
+    <string name="searchHint">Nome da Película</string>
+    <string name="searchTitle">Buscar</string>
+    <string name="action_next">Siguiente página</string>
+    <string name="action_prior">Página anterior</string>
+    <string name="action_reset">Reiniciar</string>
+    <string name="start">Primero</string>
+    <string name="cfgtxt">Ajustes</string>
+    <string name="limitpag">Películas por Página:</string>
+    <string name="qlty">Calidad</string>
+    <string name="sortby">Ordenar por:</string>
+    <string name="txlimit">Límit</string>
+    <string name="rAll">Todos</string>
+    <string name="r720p">720p</string>
+    <string name="r1080">1080p</string>
+    <string name="r3D">3D</string>
+    <string name="pptxt">Política de Privacidad</string>
+
+    <string name="develtxt">Desarrollado por:\nRodrigo Ribeiro\ndigao.listas@gmail.com</string>
+    <string-array name="arrayQlty">
+        <item>Todos</item>
+        <item>720p </item>
+        <item>1080p</item>
+        <item>3D</item>
+    </string-array>
+    <string-array name="arrayOrdem">
+        <item>Título</item>
+        <item>Año</item>
+        <item>Evaluación</item>
+        <item>peers</item>
+        <item>seeds</item>
+        <item>Descargas</item>
+        <item>Likes</item>
+        <item>fecha añadida</item>
+    </string-array>
+    <string name="servidor">Servidor/Host</string>
+
+</resources>

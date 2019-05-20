@@ -219,8 +219,9 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
 
         AdView adview = findViewById(R.id.adView);
 
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
-        // Retornar na produção -->         AdRequest adRequest = new AdRequest.Builder().build();
+        //AdRequest adRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
+        // Retornar na produção -->
+        AdRequest adRequest = new AdRequest.Builder().build();
 
 
         adview.loadAd(adRequest);
@@ -233,8 +234,9 @@ OR startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.google.com"
         interstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
-                AdRequest zdRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
-//Retornar na Produção --> AdRequest zdRequest = new AdRequest.Builder().build();
+//                AdRequest zdRequest = new AdRequest.Builder().addTestDevice("F8E6C0A9E1C2B73E4EA164ADC9A3BDB0").build();
+//Retornar na Produção -->
+                AdRequest zdRequest = new AdRequest.Builder().build();
                 interstitialAd.loadAd(zdRequest);
             }
         });
@@ -357,6 +359,8 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
             setPagina(0);
             searchTerm = "";
             getMovies("", 0);
+
+
         }
         if (id == R.id.action_prior && pagina > 1) {
             //page--;
@@ -489,7 +493,7 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
         queue.add(jsonObjectRequest);
         if (main_menu != null) {
             MenuItem zitem = main_menu.findItem(R.id.action_next);
-            zitem.setVisible(movieList.size() >= config.getLIMIT());
+            zitem.setVisible(movieList.size() == config.getLIMIT() || searchValue.isEmpty());
         }
         return movieList;
     }

@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Yts Browser</string>
+    <string name="action_settings">Search</string>
+    <string name="bt3d">3D (99999)</string>
+    <string name="bt720">720p (99999)</string>
+    <string name="bt1080">1080p (99999)</string>
+    <string name="btimdb">Imdb (99.99)</string>
+    <string name="txtyear">Year/Language</string>
+    <string name="txttitle">Movie Title</string>
+    <string name="txtGen">Genre</string>
+    <string name="synopsis">"synopsis</string>
+    <string name="searchText">New Search</string>
+    <string name="searchHint">Movie Name</string>
+    <string name="searchTitle">Search</string>
+    <string name="action_next">Next Page</string>
+    <string name="action_prior">Prior Page</string>
+    <string name="action_reset">Reset</string>
+    <string name="start">Home</string>
+    <string name="cfgtxt">Settings</string>
+    <string name="limitpag">Movies per Page:</string>
+    <string name="qlty">Quality</string>
+    <string name="sortby">Order by:</string>
+    <string name="txlimit">Limit</string>
+    <string name="rAll">All</string>
+    <string name="r720p">720p</string>
+    <string name="r1080">1080p</string>
+    <string name="r3D">3D</string>
+    <string name="pptxt">Privacy Policy</string>
+
+    <string name="develtxt">Designed by:\nRodrigo Ribeiro\ndigao.listas@gmail.com</string>
+    <string-array name="arrayQlty">
+        <item>All</item>
+        <item>720p </item>
+        <item>1080p</item>
+        <item>3D</item>
+    </string-array>
+    <string-array name="arrayOrdem">
+        <item>Title</item>
+        <item>Year</item>
+        <item>Ratting</item>
+        <item>peers</item>
+        <item>seeds</item>
+        <item>Downloads</item>
+        <item>Likes</item>
+        <item>Added Date</item>
+    </string-array>
+    <string name="servidor">Server/Host</string>
+
+</resources>

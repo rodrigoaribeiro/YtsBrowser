@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -70,7 +69,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movieGenre"
-
+                android:background="@drawable/btn_rouded"
+                android:drawableTop="@drawable/imdb48"
                 android:layout_toRightOf="@id/movieImageID"
                 android:text="@string/btimdb" />
             <TextView
@@ -87,6 +87,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movieSynopsis"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/btn_rouded"
                 android:text="@string/bt720" />
             <Button
                 android:id="@+id/bt1080"
@@ -95,17 +97,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movieSynopsis"
+                android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/bt720"
+                android:background="@drawable/btn_rouded"
                 android:text="@string/bt1080" />
 
             <Button
                 android:id="@+id/bt3D"
-                android:textSize="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/bt1080"
                 android:layout_below="@id/movieSynopsis"
-                android:text="@string/bt3d" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="0dp"
+                android:layout_toRightOf="@id/bt1080"
+                android:background="@drawable/btn_rouded"
+                android:text="@string/bt3d"
+                android:textSize="10dp" />
         </RelativeLayout>
 
 

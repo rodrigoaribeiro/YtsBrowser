@@ -21,6 +21,23 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <!--
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                < !- http://rodrigoaribeiro.blogspot.com/ytsbrowser - - >
+                <data android:scheme="http"
+                    android:host="rodrigoaribeiro.blogspot.com"
+                    android:pathPrefix="/ytsbrowser" />
+
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                < ! - - Accepts URIs that begin with "app://ytsbrowser” - - >
+                <data android:scheme="app"
+                    android:host="ytsbrowser" /> -->
             </intent-filter>
         </activity>
 

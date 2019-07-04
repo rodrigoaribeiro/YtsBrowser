@@ -26,6 +26,9 @@
     <string name="r1080">1080p</string>
     <string name="r3D">3D</string>
     <string name="pptxt">Privacy Policy</string>
+    <string name="semrede">No Internet Connection</string>
+    <string name="erroac1">Error connecting</string>
+    <string name="trylater">Try again later please !</string>
 
     <string name="develtxt">Designed by:\nRodrigo Ribeiro\ndigao.listas@gmail.com</string>
     <string-array name="arrayQlty">

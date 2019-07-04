@@ -29,7 +29,9 @@
     <string name="r1080">1080p</string>
     <string name="r3D">3D</string>
     <string name="pptxt">Política de Privacidade</string>
-
+    <string name="semrede">Sem conexão de Internet</string>
+    <string name="erroac1">Erro ao acessar</string>
+    <string name="trylater">Tente mais tarde por favor!</string>
     <string name="develtxt">Desenvolvido por:\nRodrigo Ribeiro\ndigao.listas@gmail.com</string>
     <string-array name="arrayQlty">
         <item>Todas</item>
@@ -58,6 +60,7 @@
         <item>Data de inclusão</item>
     </string-array>
     <string name="servidor">Servidor/Host</string>
+    <string name="txTrailer">Trailer</string>
     <string-array name="servidores">
         <item>yts.am</item>
         <item>yts.ag</item>

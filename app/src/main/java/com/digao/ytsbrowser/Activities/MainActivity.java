@@ -3,6 +3,8 @@ package com.digao.ytsbrowser.Activities;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -48,8 +50,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private int pagina = 1;
@@ -380,6 +382,12 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
         return super.onOptionsItemSelected(item);
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
     public List<Movie> getMovies(final String searchValue, int page) {
 
 
@@ -396,6 +404,10 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
 
             vIndex = idGrQlty.indexOfChild(idGrQlty.findViewById(idGrQlty.getCheckedRadioButtonId()));
 
+        }
+        if (!isNetworkAvailable()) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.semrede), Toast.LENGTH_LONG).show();
+            return null;
         }
         String URL_SEARCH = config.getURL(searchValue, page, vIndex);
         Log.d("search", URL_SEARCH);
@@ -446,6 +458,13 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
                             movie.setRating(movieObj.getString("rating"));
                             movie.setImdbId(movieObj.getString("imdb_code"));
                             movie.setSinopse(movieObj.getString("synopsis"));
+                            if (movieObj.has("yt_trailer_code")) {
+                                if (!movieObj.getString("yt_trailer_code").isEmpty()) {
+                                    movie.setCode_trailer(movieObj.getString("yt_trailer_code"));
+                                }
+                            }
+
+
                             JSONArray genres = movieObj.getJSONArray("genres");
                             for (int z = 0; z < genres.length(); z++) {
                                 if (z > 0) {
@@ -486,7 +505,8 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
                 //Log.d("volley",error.getMessage());
                 //VolleyLog.d(error.toString());
                 //Log.d("")
-                Toast.makeText(getApplicationContext(), "Erro ao acessar https://" + config.getDomain() + "\nTente mais tarde por favor!\n" + error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.erroac1) + " https://" + config.getDomain() + "\n" +
+                        getResources().getString(R.string.trylater) + "\n" + error.toString(), Toast.LENGTH_LONG).show();
 //                VolleyLog.d(error.getMessage());
             }
         });
@@ -508,12 +528,14 @@ MobileAds.initialize(this, getString(R.string.APPLICATION_ID) ) ;
         //Retrieve data in the intent
         //String editTextValue = intent.getStringExtra("valueId");
         if (requestCode == 99) {
-            int random = new Random().nextInt((99 - 0) + 1) + 0; // get a random number between 0 and 99
-            if (random % 3 == 0) { // if the number is multiple of 3
+            //int num_aux = new Random().nextInt((99 - 0) + 1) + 0; // get a random number between 0 and 99
+            int num_aux = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+            //if (num_aux % 3 == 0) { // if the number is multiple of 3
+            //if (num_aux % 2 == 0) {
                 if (interstitialAd != null && interstitialAd.isLoaded()) {
                     interstitialAd.show();
                 }
-            }
+            //}
         }
         getMovies("", 0);
     }

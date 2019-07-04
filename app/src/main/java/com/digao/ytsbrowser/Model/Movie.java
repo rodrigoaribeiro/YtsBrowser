@@ -11,7 +11,9 @@ public class Movie {
     private String genre;
     private String rating;
     private String imdbId;
+    private String code_trailer = "";
     private int seeds3d;
+
     private int seeds780p;
     private int seeds1080p;
     private String hash;
@@ -153,5 +155,16 @@ public class Movie {
         this.hash = hash;
     }
 
+    public String getCode_trailer() {
+        return code_trailer;
+    }
+
+    public void setCode_trailer(String code_trailer) {
+        this.code_trailer = code_trailer;
+    }
+
+    public String getLinkTrailer() {
+        return "https://www.youtube.com/watch?v=" + code_trailer;
+    }
 }
 

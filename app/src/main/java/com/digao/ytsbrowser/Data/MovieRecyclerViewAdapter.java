@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,17 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         holder.bt3d.setVisibility(View.INVISIBLE);
         holder.bt720p.setVisibility(View.INVISIBLE);
         holder.bt1080p.setVisibility(View.INVISIBLE);
+        holder.btTrailer.setVisibility(View.VISIBLE);
+        //holder.synopsis.setText(movie.getCode_trailer());
+        if (movie.getCode_trailer().isEmpty()) {
+            holder.btTrailer.setVisibility(View.INVISIBLE);
+        }
+        holder.btTrailer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(movie.getLinkTrailer())));
+            }
+        });
         indxTorrent = movie.indexOfTorrent("1080p");
         if (indxTorrent >= 0) {
             torrentAux = movie.getTorrent(indxTorrent);
@@ -117,8 +129,15 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         }
 
 
-        Picasso.get().load(posterLink).placeholder(R.drawable.film000)
-                .into(holder.cover);
+        try {
+            Picasso.get().load(posterLink).placeholder(R.drawable.film000)
+                    .into(holder.cover);
+        } catch (Exception e) {
+            //e.printStackTrace();
+            //Toast.makeText( context, "erro ao carregar poster!", Toast.LENGTH_LONG).show();
+
+            Log.e("error: ", "Can't Reach: " + posterLink);
+        }
     }
 
     public void openUrl(View view, String magnetLink) {
@@ -137,7 +156,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title, year, genre, synopsis;
-        Button btImdb, bt3d, bt720p, bt1080p;
+        Button btImdb, bt3d, bt720p, bt1080p, btTrailer;
         ImageView cover;
         Context ctx;
 
@@ -153,6 +172,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
 
             btImdb = itemView.findViewById(R.id.btImdb);
+            btTrailer = itemView.findViewById(R.id.btTrailer);
             bt3d = itemView.findViewById(R.id.bt3D);
             bt720p = itemView.findViewById(R.id.bt720);
             bt1080p = itemView.findViewById(R.id.bt1080);

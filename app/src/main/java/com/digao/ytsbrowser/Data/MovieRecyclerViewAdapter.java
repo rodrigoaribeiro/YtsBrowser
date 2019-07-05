@@ -64,12 +64,12 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         holder.bt3d.setVisibility(View.INVISIBLE);
         holder.bt720p.setVisibility(View.INVISIBLE);
         holder.bt1080p.setVisibility(View.INVISIBLE);
-        holder.btTrailer.setVisibility(View.VISIBLE);
+        holder.imgTrailer.setVisibility(View.VISIBLE);
         //holder.synopsis.setText(movie.getCode_trailer());
         if (movie.getCode_trailer().isEmpty()) {
-            holder.btTrailer.setVisibility(View.INVISIBLE);
+            holder.imgTrailer.setVisibility(View.INVISIBLE);
         }
-        holder.btTrailer.setOnClickListener(new View.OnClickListener() {
+        holder.imgTrailer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(movie.getLinkTrailer())));
@@ -156,8 +156,8 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title, year, genre, synopsis;
-        Button btImdb, bt3d, bt720p, bt1080p, btTrailer;
-        ImageView cover;
+        Button btImdb, bt3d, bt720p, bt1080p;
+        ImageView cover, imgTrailer;
         Context ctx;
 
 
@@ -172,7 +172,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
 
             btImdb = itemView.findViewById(R.id.btImdb);
-            btTrailer = itemView.findViewById(R.id.btTrailer);
+            imgTrailer = itemView.findViewById(R.id.imgTrailer);
             bt3d = itemView.findViewById(R.id.bt3D);
             bt720p = itemView.findViewById(R.id.bt720);
             bt1080p = itemView.findViewById(R.id.bt1080);

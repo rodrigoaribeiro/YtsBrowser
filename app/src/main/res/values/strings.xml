@@ -15,9 +15,9 @@
     <string name="action_next">Proxima Página</string>
     <string name="action_prior">Página Anterior</string>
     <string name="action_reset">Reset</string>
-    <string name="APPLICATION_ID">ca-app-pub-1882929555373840~8922565807</string>
-    <string name="admobbannerid">ca-app-pub-1882929555373840/1319052731</string>
-    <string name="interstitial">ca-app-pub-1882929555373840/5042675321</string>
+    <string name="APPLICATION_ID">ca-app-pub- APP ID   -  ADMOB</string>
+    <string name="admobbannerid">ca-app-pub- ID BANNER ADMOB</string>
+    <string name="interstitial">ca-app-pub-  ID INTERSTITTIAL ADMOB</string>
     <string name="start">Início</string>
     <string name="cfgtxt">Configurações</string>
     <string name="limitpag">Limite por Página:</string>
@@ -32,7 +32,7 @@
     <string name="semrede">Sem conexão de Internet</string>
     <string name="erroac1">Erro ao acessar</string>
     <string name="trylater">Tente mais tarde por favor!</string>
-    <string name="develtxt">Desenvolvido por:\nRodrigo Ribeiro\ndigao.listas@gmail.com</string>
+    <string name="develtxt">Desenvolvido por:\nRodrigo Ribeiro</string>
     <string-array name="arrayQlty">
         <item>Todas</item>
         <item>720p </item>

@@ -1,14 +1,14 @@
 {
   "project_info": {
-    "project_number": "658852917831",
+    "project_number": "project number",
     "firebase_url": "https://ytsbrowser-85e59.firebaseio.com",
-    "project_id": "ytsbrowser-85e59",
-    "storage_bucket": "ytsbrowser-85e59.appspot.com"
+    "project_id": "project_id",
+    "storage_bucket": "bucket"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:658852917831:android:c77e387f2095244e",
+        "mobilesdk_app_id": "1:mobile sdk app id ",
         "android_client_info": {
           "package_name": "com.digao.ytsbrowser"
         }
@@ -16,14 +16,14 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCIDrzxZTrX48SzQ5PFXsnKWwUF7WTPwdE"
+          "current_key": "oauth_client"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "658852917831-mdi5rad48et24tkb8fcqjf9t782nevum.apps.googleusercontent.com",
+              "client_id": "client_id",
               "client_type": 3
             }
           ]
